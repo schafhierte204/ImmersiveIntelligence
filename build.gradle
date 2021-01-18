@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.runtime.regexp.joni.Config
+
 buildscript {
     repositories {
         jcenter()
@@ -91,13 +93,20 @@ dependencies {
     //deobfCompile "albedo:albedo:1.12.2:1.1.0"
     deobfCompile 'baubles:Baubles:1.12:1.5.2'
 
-    compileOnly "curse.maven:immersive-petroleum:2544919"
+    compileOnly "curse.maven:immersive-petroleum-268250:2544919"
+
+    testCompile ('org.junit.jupiter:junit-jupiter-api:5.4.+')
+    testRuntime ('org.junit.jupiter:junit-jupiter-engine:5.4.+')
 }
 
 reobf {
     coreJar { mappingType = 'SEARGE' }
 }
+test {
+    useJUnit()
 
+    maxHeapSize = '1G'
+}
 task coreJar(type: Jar) {
     // Copy all compiled files and resources from the source set to the JAR
     // If you have additional source sets, add the same logic here
@@ -208,9 +217,9 @@ artifacts {
 //To use personalized options when working with the mod create a file named custom.gradle
 //The file is not sychronised with GitHub and can be used i.e. to store username and password
 //Thanks to BluSunrize for the idea (taken from IE)
-def customGradle = rootProject.file('custom.gradle');
+def customGradle = rootProject.file('custom.gradle')
 if (customGradle.exists()) {
-    apply from: customGradle;
+    apply from: customGradle
 }
 
 
